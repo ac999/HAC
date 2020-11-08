@@ -21,39 +21,46 @@ end COMPONENT;
   signal s_in   : bit_vector (2 downto 0) := b"100";
   signal s_0    : bit;
   signal s_1    : bit;
+  signal s_2    : bit;
 
 begin
 
   ff2   : Dflipflop
     PORT MAP(
-    d     => s_in(0),
-    q     => s_1,
+    d     => s_in(2),
+    q     => s_2,
     clk   => clk,
     reset => reset
     );
 
   ff1   : Dflipflop
     PORT MAP(
-    d     => s_1,
-    q     => s_0,
+    d     => s_in(1),
+    q     => s_1,
     clk   => clk,
     reset => reset
     );
 
   ff0   : Dflipflop
     PORT MAP(
-    d     => s_0,
-    q     => lfsr_out,
+    d     => s_in(0),
+    q     => s_0,
     clk   => clk,
     reset => reset
     );
 
-  fb_path  : PROCESS
+  fb_path  : PROCESS(clk, reset)
   begin
-    s_in(0) <= s_in(1);
-    s_in(1) <= s_in(2);
-    s_in(2) <= s_0 xor s_1;
-    wait;
+    if clk'event and (clk='1') then
+      s_in(0) <= s_in(1);
+      s_in(1) <= s_in(2);
+      s_in(2) <= s_0 xor s_1;
+      lfsr_out<= s_0;
+    elsif(reset='1') then
+      s_in(0) <= seed(0);
+      s_in(1) <= seed(1);
+      s_in(2) <= seed(2);
+    end if;
   end PROCESS fb_path;
 
   clock : PROCESS
