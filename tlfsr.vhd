@@ -48,13 +48,13 @@ begin
     reset => reset
     );
 
-  calc  : PROCESS
+  fb_path  : PROCESS
   begin
     s_in(0) <= s_in(1);
     s_in(1) <= s_in(2);
     s_in(2) <= s_0 xor s_1;
     wait;
-  end PROCESS calc;
+  end PROCESS fb_path;
 
   clock : PROCESS
   begin
