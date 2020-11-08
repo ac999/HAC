@@ -8,8 +8,8 @@ entity Dflipflop is
 end Dflipflop;
 
 architecture only of Dflipflop is
-  constant tpd_reset_to_state : time := 3 ns;
-  constant tpd_clk_to_state   : time := 5 ns;
+  constant tpd_reset_to_state : time := 0 ns;
+  constant tpd_clk_to_state   : time := 0 ns;
 
   begin
     process(clk, reset)
